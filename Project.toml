@@ -1,0 +1,10 @@
+name = "TravelingSalesmanBenchmarks"
+uuid = "d410886c-d62f-5643-b3e0-33491c29203f"
+authors = ["Eric <5846501+ericphanson@users.noreply.github.com>"]
+version = "0.1.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
