@@ -49,27 +49,32 @@ function weave_all()
   end
 end
 
-function build_all()
-    open("index.html", "w") do io
-        write(io,Markdown.html(md"""
+function build_index()
+    open(joinpath(repo_directory, "index.md"), "w") do io
+        println(io,md"""
         # TravelingSalesmanBenchmarks
         Benchmarks:
-        """ ))
-        write(io, "<ul>")
+        """ )
+
         for file in readdir(joinpath(repo_directory,"benchmarks"))
             html_path = joinpath("html", file[1:end-4]*".html")
             jmd_path = joinpath(repo_directory,"benchmarks", file)
             frontmatter = YAML.load(open(jmd_path))
             if haskey(frontmatter, "title")
-                title = Markdown.html(Markdown.parse(frontmatter["title"])
-                )
+                title = strip(frontmatter["title"], '\n')
+                
             else
                 title = file
             end
-            write(io, "<li><a href=\"" * html_path * "\">$title</a></li>")
+            println(io, "* [$title]($html_path)")
         end
-        write(io, "</ul>")
     end
+    weave(joinpath(repo_directory, "index.md"), out_path=joinpath(repo_directory, "index.html"))
+end
+
+function generate()
+    weave_all()
+    build_index()
 end
 
 function bench_footer(file=nothing)
