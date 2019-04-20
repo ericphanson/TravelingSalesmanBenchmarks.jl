@@ -13,6 +13,7 @@ Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 TravelingSalesmanExact = "737fac7d-4440-55ef-927e-002196e95561"
 TravelingSalesmanHeuristics = "8c8f4381-2cdd-507c-846c-be2bcff6f45f"
 Weave = "44d3d7a6-8a23-5bf8-98c5-b353f8df5ec9"
+YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

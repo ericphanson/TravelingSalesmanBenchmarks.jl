@@ -1,6 +1,6 @@
 module TravelingSalesmanBenchmarks
 
-using Weave, Pkg, IJulia, InteractiveUtils, Markdown
+using Weave, Pkg, IJulia, InteractiveUtils, Markdown, YAML
 
 repo_directory = normpath(joinpath(@__DIR__,".."))
 args = Dict("repo_directory" => repo_directory);
@@ -47,6 +47,29 @@ function weave_all()
     endswith(file, ".jmd") || continue
     weave_file(file)
   end
+end
+
+function build_all()
+    open("index.html", "w") do io
+        write(io,Markdown.html(md"""
+        # TravelingSalesmanBenchmarks
+        Benchmarks:
+        """ ))
+        write(io, "<ul>")
+        for file in readdir(joinpath(repo_directory,"benchmarks"))
+            html_path = joinpath("html", file)
+            jmd_path = joinpath(repo_directory,"benchmarks", file)
+            frontmatter = YAML.load(open(jmd_path))
+            if haskey(frontmatter, "title")
+                title = Markdown.html(Markdown.parse(frontmatter["title"])
+                )
+            else
+                title = file
+            end
+            write(io, "<li><a href=$html_path>$title</a></li>")
+        end
+        write(io, "</ul>")
+    end
 end
 
 function bench_footer(file=nothing)
