@@ -4,11 +4,11 @@ using TravelingSalesmanHeuristics
 using TravelingSalesmanExact: ATT, euclidean_distance
 using TravelingSalesmanBenchmarks
 using Plots
+using Random
 gr(fmt=:svg)
-repo_directory = TravelingSalesmanBenchmarks.repo_directory;
-data_directory = joinpath(repo_directory, "data");
 
 
+Random.seed!(758)
 N = 50
 cost = 100*rand(N, N)
 cost = (cost + transpose(cost) )/2

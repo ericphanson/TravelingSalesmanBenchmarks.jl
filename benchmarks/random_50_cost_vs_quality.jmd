@@ -11,13 +11,13 @@ using TravelingSalesmanHeuristics
 using TravelingSalesmanExact: ATT, euclidean_distance
 using TravelingSalesmanBenchmarks
 using Plots
+using Random
 gr(fmt=:svg)
-repo_directory = TravelingSalesmanBenchmarks.repo_directory;
-data_directory = joinpath(repo_directory, "data");
 ```
 
-Then we generate a cost matrix uniformly at random:
+Then we generate a cost matrix uniformly at random, although with a fixed seed for reproducibility:
 ```julia
+Random.seed!(147);
 N = 50
 cost = 100*rand(N, N)
 ```

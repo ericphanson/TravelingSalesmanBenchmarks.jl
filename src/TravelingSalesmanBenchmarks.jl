@@ -2,10 +2,12 @@ module TravelingSalesmanBenchmarks
 
 using Weave, Pkg, IJulia, InteractiveUtils, Markdown, YAML
 
+
 repo_directory = normpath(joinpath(@__DIR__,".."))
 args = Dict("repo_directory" => repo_directory);
 
 function weave_file(file,build_list=(:script,:html,:notebook))
+    Weave.set_chunk_defaults(Dict{Symbol,Any}(:fig_ext=>".svg"))
   println("File: $file")
   tmp = joinpath(repo_directory,"benchmarks",file)
   args = Dict{Symbol,String}(:file=>file, :repo_directory=>repo_directory)
