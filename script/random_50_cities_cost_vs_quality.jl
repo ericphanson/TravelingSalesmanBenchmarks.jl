@@ -20,7 +20,7 @@ c(q) = solve_tsp(cost; quality_factor = q)[2]
 
 qs = range(10, stop = 100, step = 10)
 
-plot(qs, c, xlabel="quality", ylabel="Cost", label="solve_tsp 1", title="att48.tsp")
+plot(qs, c, xlabel="quality", ylabel="Cost", label="solve_tsp 1", title="random cities")
 for j = 2:5
     plot!(qs, c, label="solve_tsp $j")
 end

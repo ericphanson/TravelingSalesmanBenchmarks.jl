@@ -29,11 +29,13 @@ using TravelingSalesmanBenchmarks
 TravelingSalesmanBenchmarks.weave_file("att48_cost_vs_quality.jmd")
 ```
 
-To generate all of the notebooks, do:
+To generate all of the benchmarks, do:
 
 ```julia
-TravelingSalesmanBenchmarks.weave_all()
+TravelingSalesmanBenchmarks.generate()
 ```
+
+This will also update `index.html`.
 
 Each of the benchmarks displays the computer characteristics at the bottom of
 the benchmark.
