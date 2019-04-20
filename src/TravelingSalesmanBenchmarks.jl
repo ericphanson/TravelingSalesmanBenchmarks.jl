@@ -66,7 +66,7 @@ function build_all()
             else
                 title = file
             end
-            write(io, "<li><a href=$html_path>$title</a></li>")
+            write(io, "<li><a href=\"" * html_path * "\">$title</a></li>")
         end
         write(io, "</ul>")
     end
