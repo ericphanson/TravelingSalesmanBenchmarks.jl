@@ -50,6 +50,7 @@ function weave_all()
 end
 
 function build_index()
+    println("Building index")
     open(joinpath(repo_directory, "index.md"), "w") do io
         println(io,md"""
         # TravelingSalesmanBenchmarks
