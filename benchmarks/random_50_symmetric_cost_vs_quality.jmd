@@ -1,0 +1,46 @@
+---
+title: Comparison of cost vs quality for a random symmetric cost matrix
+author: Eric P. Hanson
+---
+
+We will use `TravelingSalesmanExact` to compute the exact cost and compare to the estimated best costs found by `TravelingSalesmanHeuristics` with various settings of `quality`.
+First we load the packages:
+```julia
+using TravelingSalesmanExact, GLPK
+using TravelingSalesmanHeuristics
+using TravelingSalesmanExact: ATT, euclidean_distance
+using TravelingSalesmanBenchmarks
+using Plots
+gr(fmt=:svg)
+repo_directory = TravelingSalesmanBenchmarks.repo_directory;
+data_directory = joinpath(repo_directory, "data");
+```
+
+Then we generate a cost matrix by taking a matrix uniformly at random and symmetrizing it:
+```julia
+N = 50
+cost = 100*rand(N, N)
+cost = (cost + transpose(cost) )/2
+```
+
+Note that this is a very odd cost matrix for a TSP problem, since e.g. the diagonal is non-zero, although it is symmetric.
+
+Now we will compute an optimal tour and cost, and plot these versus those found by the `tsp_solve` function of `TravelingSalesmanHeuristics`.
+```julia
+t_exact, c_exact = get_optimal_tour(cost, with_optimizer(GLPK.Optimizer))
+
+c(q) = solve_tsp(cost; quality_factor = q)[2]
+
+qs = range(10, stop = 100, step = 10)
+
+plot(qs, c, xlabel="quality", ylabel="Cost", label="solve_tsp 1", title="att48.tsp")
+for j = 2:5
+    plot!(qs, c, label="solve_tsp $j")
+end
+hline!([c_exact], label="Exact cost")
+```
+We've run `tsp_solve` five times for each quality, since the cost will vary from run to run due to the randomness of the heuristics. It seems like the heuristics do not perform that well, but I believe that is due to the pathological cost matrix, which likely violates some assumptions of the heuristics.
+
+```julia echo=false
+TravelingSalesmanBenchmarks.bench_footer(WEAVE_ARGS[:file])
+```
