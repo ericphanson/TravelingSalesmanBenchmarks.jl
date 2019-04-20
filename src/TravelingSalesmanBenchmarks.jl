@@ -53,7 +53,8 @@ function build_index()
     open(joinpath(repo_directory, "index.md"), "w") do io
         println(io,md"""
         # TravelingSalesmanBenchmarks
-        Benchmarks:
+        Repository: <https://github.com/ericphanson/TravelingSalesmanBenchmarks.jl>
+        ## Benchmark files:
         """ )
 
         for file in readdir(joinpath(repo_directory,"benchmarks"))
