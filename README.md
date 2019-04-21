@@ -1,11 +1,6 @@
 # TravelingSalesmanBenchmarks
 
-A set of benchmarks for the Julia package [TravelingSalesmanHeuristics](https://github.com/evanfields/TravelingSalesmanHeuristics.jl). Modified from the `weave` branch of [DiffEqBenchmarks](https://github.com/JuliaDiffEq/DiffEqBenchmarks.jl/tree/weave).
-
-Requires the not-yet-registered package [TravelingSalesmanExact](https://github.com/ericphanson/TravelingSalesmanExact.jl) which can be installed via
-```julia
-] add https://github.com/ericphanson/TravelingSalesmanExact.jl
-```
+A set of benchmarks for the Julia package [TravelingSalesmanHeuristics](https://github.com/evanfields/TravelingSalesmanHeuristics.jl) using [TravelingSalesmanExact](https://github.com/ericphanson/TravelingSalesmanExact.jl) to generate comparison data. Modified from the `weave` branch of [DiffEqBenchmarks](https://github.com/JuliaDiffEq/DiffEqBenchmarks.jl/tree/weave).
 
 View the generated benchmarks at <https://ericphanson.github.io/TravelingSalesmanBenchmarks.jl/>.
 

@@ -355,7 +355,7 @@ uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [[TravelingSalesmanExact]]
 deps = ["JuMP", "LinearAlgebra", "Logging", "MathOptInterface", "UnicodePlots"]
-path = "/Users/eh540/.julia/dev/TravelingSalesmanExact"
+git-tree-sha1 = "e64cf1ab02dd86a772a210e9334c12c9a9d8450c"
 uuid = "737fac7d-4440-55ef-927e-002196e95561"
 version = "0.3.1"
 
