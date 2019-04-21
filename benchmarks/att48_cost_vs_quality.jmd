@@ -39,6 +39,8 @@ hline!([c_exact], label="Exact cost")
 ```
 We've run `tsp_solve` five times for each quality, since the cost will vary from run to run due to the randomness of the heuristics.
 
+
 ```julia echo=false
-TravelingSalesmanBenchmarks.bench_footer(WEAVE_ARGS[:file])
+file = @isdefined(WEAVE_ARGS) ? WEAVE_ARGS[:file] : nothing
+TravelingSalesmanBenchmarks.bench_footer(file)
 ```

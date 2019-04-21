@@ -26,5 +26,6 @@ end
 hline!([c_exact], label="Exact cost")
 
 
-TravelingSalesmanBenchmarks.bench_footer(WEAVE_ARGS[:file])
+file = @isdefined(WEAVE_ARGS) ? WEAVE_ARGS[:file] : nothing
+TravelingSalesmanBenchmarks.bench_footer(file)
 

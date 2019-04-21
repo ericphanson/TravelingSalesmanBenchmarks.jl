@@ -8,11 +8,24 @@ using Printf, Random
 gr(fmt=:svg)
 
 
-function TravelingSalesmanExact.plot_cities(cities; kwargs...)
+function get_plt_coords(cities)
     n = length(cities)
     inc(a) = a == n ? one(a) : a + 1
-    Plots.plot([cities[inc(j)][1] for j = 0:n], [cities[inc(j)][2] for j = 0:n]; kwargs...)
-    Plots.plot!([cities[inc(j)][1] for j = 0:n], [cities[inc(j)][2] for j = 0:n]; st=:scatter, label="City locations")
+    return [cities[inc(j)][1] for j = 0:n], [cities[inc(j)][2] for j = 0:n]
+end
+TravelingSalesmanExact.plot_cities(cities; kwargs...) = plot(get_plt_coords(cities)...; kwargs...)
+plot_cities!(cities; kwargs...) = plot!(get_plt_coords(cities)...; kwargs...)
+
+function plot_tours(cities, pairs; kwargs...)
+    plts = []
+    colors = sequential_palette(0, length(pairs)+1)[2:end]
+    for (index, (tour, label)) in enumerate(pairs)
+        plt = plot_cities(cities[tour], label = label, linewidth = 2,
+                            color = colors[index])
+        plot_cities!(cities; title="Comparison of tours", st=:scatter, label="City locations", markersize = 5, kwargs...)
+        push!(plts, plt)
+    end
+    return plts
 end
 
 
@@ -35,15 +48,17 @@ end
 hline!([c_exact], label="Exact cost")
 
 
-plot_cities(cities[t_exact], title="Optimal tour", label=@sprintf("cost=%.2f", c_exact))
+t_heuristic_100, c_heuristic_100 = solve_tsp(cost; quality_factor = 100)
+t_heuristic_40, c_heuristic_40 = solve_tsp(cost; quality_factor = 40)
 
-
-t_heuristic, c_heuristic = solve_tsp(cost; quality_factor = 100)
-plot_cities(cities[t_heuristic], title="Heuristic tour, `quality_factor` = 100", label=@sprintf("cost=%.2f", c_heuristic))
-
-
-t_heuristic, c_heuristic = solve_tsp(cost; quality_factor = 40)
-plot_cities(cities[t_heuristic], title="Heuristic tour, `quality_factor` = 40", label=@sprintf("cost=%.2f", c_heuristic))
+plts = plot_tours(cities, [
+    (t_heuristic_40, @sprintf("Heuristic; quality 40, cost=%.2f",   c_heuristic_40)),
+    (t_heuristic_100, @sprintf("Heuristic; quality 100, cost=%.2f", c_heuristic_100)),
+    (t_exact, @sprintf("Optimal tour; cost=%.2f", c_exact))
+    ])
+for plt in plts
+    display(plt)
+end
 
 
 function compare_cities(N)
@@ -61,14 +76,14 @@ function compare_cities(N)
     end
     hline!([c_exact], label="Exact cost")
 
-    opt_city_plt = plot_cities(cities[t_exact], title="Optimal tour", label=@sprintf("cost=%.2f", c_exact))
-
-    t_heuristic, c_heuristic = solve_tsp(cost; quality_factor = 100)
-    heuristic_city_plt_1 = plot_cities(cities[t_heuristic], title="Heuristic tour, `quality_factor` = 100", label=@sprintf("cost=%.2f", c_heuristic))
-
-    t_heuristic_2, c_heuristic_2 = solve_tsp(cost; quality_factor = 40)
-    heuristic_city_plt_2 = plot_cities(cities[t_heuristic_2], title="Heuristic tour, `quality_factor` = 40", label=@sprintf("cost=%.2f", c_heuristic_2))
-    return line_plt, opt_city_plt, heuristic_city_plt_1, heuristic_city_plt_2
+    t_heuristic_100, c_heuristic_100 = solve_tsp(cost; quality_factor = 100)
+    t_heuristic_40, c_heuristic_40 = solve_tsp(cost; quality_factor = 40)
+    city_plts = plot_tours(cities, [
+    (t_heuristic_40, @sprintf("Heuristic; quality 40, cost=%.2f",   c_heuristic_40)),
+    (t_heuristic_100, @sprintf("Heuristic; quality 100, cost=%.2f", c_heuristic_100)),
+    (t_exact, @sprintf("Optimal tour; cost=%.2f", c_exact))
+    ])
+    return line_plt, city_plts...
 end
 
 for j = 1:5
@@ -79,5 +94,6 @@ for j = 1:5
 end
 
 
-TravelingSalesmanBenchmarks.bench_footer(WEAVE_ARGS[:file])
+file = @isdefined(WEAVE_ARGS) ? WEAVE_ARGS[:file] : nothing
+TravelingSalesmanBenchmarks.bench_footer(file)
 
